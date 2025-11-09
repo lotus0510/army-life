@@ -8,9 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-# dist  # 註解掉，讓 GitHub Pages 可以部署
+dist
 dist-ssr
 *.local
+# 讓 docs 可以被推送（用於 GitHub Pages）
+!docs
 
 # Editor directories and files
 .vscode/*
