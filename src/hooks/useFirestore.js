@@ -10,6 +10,16 @@ export function useFirestore(userId) {
   const [serviceDuration, setServiceDuration] = useState(365)
   const [loading, setLoading] = useState(true)
 
+  // 當 userId 改變時，重置所有 state
+  useEffect(() => {
+    setDiaries([])
+    setTimelineEvents([])
+    setMoods([])
+    setEnlistDate('')
+    setServiceDuration(365)
+    setLoading(true)
+  }, [userId])
+
   // 用戶資料的 Firestore 路徑
   const userDocRef = userId ? doc(db, 'users', userId) : null
   const diariesRef = userId ? collection(db, 'users', userId, 'diaries') : null
@@ -30,9 +40,16 @@ export function useFirestore(userId) {
           const data = userDoc.data()
           setEnlistDate(data.enlistDate || '')
           setServiceDuration(data.serviceDuration || 365)
+        } else {
+          // 文件不存在時，確保清空資料
+          setEnlistDate('')
+          setServiceDuration(365)
         }
       } catch (error) {
         console.error('載入用戶資料失敗:', error)
+        // 發生錯誤時也要清空
+        setEnlistDate('')
+        setServiceDuration(365)
       }
     }
 
