@@ -19,14 +19,25 @@ export function AuthProvider({ children }) {
   // Google 登入（使用彈出窗口）
   const signInWithGoogle = async () => {
     try {
-      console.log('開始 Google 登入...')
       const result = await signInWithPopup(auth, googleProvider)
-      console.log('✅ 登入成功!', result.user.displayName)
       return result.user
     } catch (error) {
-      console.error('❌ 登入失敗:', error)
-      console.error('錯誤代碼:', error.code)
-      console.error('錯誤訊息:', error.message)
+      // 處理常見錯誤
+      let errorMessage = '登入失敗，請稍後再試'
+
+      if (error.code === 'auth/popup-blocked') {
+        errorMessage = '彈出窗口被阻擋，請允許彈出窗口後再試'
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        errorMessage = '登入已取消'
+      } else if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = '此網域未獲授權，請聯繫管理員'
+      } else if (error.code === 'auth/web-storage-unsupported') {
+        errorMessage = '瀏覽器不支援或已禁用 Storage，請檢查瀏覽器設定'
+      } else if (error.message && error.message.includes('sessionStorage')) {
+        errorMessage = '無法訪問瀏覽器儲存空間，請確認未使用無痕模式，且未禁用 Cookies'
+      }
+
+      error.userMessage = errorMessage
       throw error
     }
   }
@@ -35,25 +46,19 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     try {
       await firebaseSignOut(auth)
-      // 清除所有本地狀態，避免資料殘留
       setCurrentUser(null)
-      // 重新載入頁面，確保所有 state 都被清空
       window.location.reload()
     } catch (error) {
-      console.error('登出失敗:', error)
       throw error
     }
   }
 
   // 監聽認證狀態變化
   useEffect(() => {
-    console.log('初始化認證監聽器...')
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('✅ 用戶已登入:', user.displayName, user.email)
         setCurrentUser(user)
       } else {
-        console.log('❌ 用戶未登入')
         setCurrentUser(null)
       }
       setLoading(false)

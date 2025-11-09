@@ -70,7 +70,8 @@ function App() {
     try {
       await signInWithGoogle()
     } catch (error) {
-      alert('登入失敗，請稍後再試')
+      const message = error.userMessage || '登入失敗，請稍後再試'
+      alert(message)
     }
   }
 
