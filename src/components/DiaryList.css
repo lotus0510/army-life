@@ -1,0 +1,175 @@
+.diary-list h2 {
+  margin-bottom: 20px;
+}
+
+.empty-message {
+  color: #a0aec0;
+  text-align: center;
+  padding: 40px 20px;
+  font-style: italic;
+}
+
+.diaries {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.diary-item {
+  background: #f7fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s;
+}
+
+.diary-item.collapsed {
+  padding: 15px 20px;
+}
+
+.diary-item.expanded {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.diary-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.diary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.diary-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.diary-mood {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.diary-header h3 {
+  margin: 0;
+  color: #2d3748;
+}
+
+.expand-toggle {
+  background: transparent;
+  color: #667eea;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s;
+}
+
+.expand-toggle:hover {
+  background: #edf2f7;
+  border-color: #667eea;
+  transform: scale(1.1);
+}
+
+.diary-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.delete-btn {
+  background: #fc8181;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.delete-btn:hover {
+  background: #f56565;
+  transform: translateY(-2px);
+}
+
+.delete-confirm {
+  text-align: center;
+}
+
+.delete-confirm p {
+  margin-bottom: 15px;
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-delete-btn {
+  background: #e53e3e;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.confirm-delete-btn:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+}
+
+.cancel-delete-btn {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.cancel-delete-btn:hover {
+  background: #cbd5e0;
+}
+
+.diary-date-inline {
+  color: #718096;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.diary-content {
+  color: #4a5568;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

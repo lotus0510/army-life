@@ -1,0 +1,75 @@
+.glass-bottle-container {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.bottle-title {
+  margin: 0 0 20px 0;
+  color: #2d3748;
+  font-size: 1.3rem;
+}
+
+.glass-bottle-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  aspect-ratio: 3 / 4;
+}
+
+.bottle-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  background: transparent;
+}
+
+.glass-bottle-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.floating-emoji {
+  position: absolute;
+  font-size: 2rem;
+  user-select: none;
+  pointer-events: none;
+  z-index: 10;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bottle-info {
+  margin-top: 15px;
+  color: #718096;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .glass-bottle-wrapper {
+    max-width: 200px;
+  }
+
+  .floating-emoji {
+    font-size: 1.2rem;
+  }
+
+  .bottle-title {
+    font-size: 1.1rem;
+  }
+}

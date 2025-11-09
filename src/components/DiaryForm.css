@@ -1,0 +1,102 @@
+.diary-form h2 {
+  margin-bottom: 15px;
+}
+
+.expand-btn {
+  width: 100%;
+  padding: 15px;
+  background: #f7fafc;
+  color: #718096;
+  text-align: left;
+  border: 2px dashed #cbd5e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.expand-btn:hover {
+  background: #edf2f7;
+  border-color: #a0aec0;
+  transform: none;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.form-buttons button {
+  flex: 1;
+}
+
+.cancel-btn {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.cancel-btn:hover {
+  background: #cbd5e0;
+}
+
+/* 心情選擇器 */
+.mood-selector {
+  margin-bottom: 15px;
+}
+
+.mood-selector label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.mood-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mood-btn:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  transform: scale(1.05);
+}
+
+.mood-btn.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  transform: scale(1.05);
+}
+
+.mood-emoji {
+  font-size: 1.5rem;
+}
+
+.mood-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #4a5568;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.mood-btn.selected .mood-label {
+  color: white !important;
+}
