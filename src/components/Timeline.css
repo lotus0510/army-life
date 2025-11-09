@@ -105,3 +105,61 @@
 .timeline .delete-btn:hover {
   background: #f56565;
 }
+
+/* 響應式設計 - 手機排版優化 */
+@media (max-width: 768px) {
+  .timeline-events {
+    padding-left: 20px;
+  }
+
+  .timeline-events::before {
+    left: 5px;
+  }
+
+  .timeline-dot {
+    left: -20px;
+    width: 10px;
+    height: 10px;
+  }
+
+  .timeline-content {
+    padding: 12px;
+  }
+
+  .event-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .event-header h3 {
+    font-size: 1rem;
+  }
+
+  .event-date {
+    font-size: 0.85rem;
+  }
+
+  .event-description {
+    font-size: 0.9rem;
+  }
+
+  .timeline .delete-btn {
+    align-self: flex-end;
+    margin-top: -25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-form {
+    padding: 15px;
+  }
+
+  .timeline-item {
+    margin-bottom: 20px;
+  }
+
+  .timeline-content {
+    padding: 10px;
+  }
+}

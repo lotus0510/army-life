@@ -116,8 +116,65 @@
   line-height: 1.4;
 }
 
+/* 響應式設計 - 手機排版優化 */
+@media (max-width: 768px) {
+  .mood-options {
+    gap: 8px;
+  }
+
+  .mood-btn {
+    padding: 12px 8px;
+  }
+
+  .mood-emoji {
+    font-size: 1.75rem;
+  }
+
+  .mood-label {
+    font-size: 0.8rem;
+  }
+
+  .mood-history {
+    max-height: 250px;
+  }
+
+  .mood-item {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .mood-item-emoji {
+    font-size: 1.3rem;
+  }
+
+  .mood-item-date {
+    font-size: 0.8rem;
+  }
+
+  .mood-item-note {
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 480px) {
   .mood-options {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .mood-btn {
+    padding: 10px 6px;
+  }
+
+  .mood-emoji {
+    font-size: 1.5rem;
+  }
+
+  .mood-label {
+    font-size: 0.75rem;
+  }
+
+  .mood-history {
+    max-height: 200px;
   }
 }

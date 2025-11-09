@@ -1,0 +1,82 @@
+.tab-navigation {
+  display: flex;
+  gap: 4px;
+  background: transparent;
+  padding: 0;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: transparent;
+  color: #475569;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: #1e293b;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.tab-btn.active {
+  color: #1e293b;
+  font-weight: 600;
+  background: white;
+  box-shadow:
+    0 -2px 0 0 #667eea inset,
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+}
+
+.tab-label {
+  font-size: 0.95rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .tab-navigation {
+    gap: 6px;
+    padding: 5px;
+  }
+
+  .tab-btn {
+    padding: 8px 15px;
+    gap: 6px;
+  }
+
+  .tab-icon {
+    font-size: 1.1rem;
+  }
+
+  .tab-label {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-btn {
+    flex-direction: column;
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .tab-icon {
+    font-size: 1.3rem;
+  }
+
+  .tab-label {
+    font-size: 0.75rem;
+  }
+}
