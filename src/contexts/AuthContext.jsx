@@ -35,6 +35,10 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     try {
       await firebaseSignOut(auth)
+      // 清除所有本地狀態，避免資料殘留
+      setCurrentUser(null)
+      // 重新載入頁面，確保所有 state 都被清空
+      window.location.reload()
     } catch (error) {
       console.error('登出失敗:', error)
       throw error
