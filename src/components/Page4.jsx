@@ -11,6 +11,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { db } from "../firebase";
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
 function Page4({ currentUser }) {
   const [sheets, setSheets] = useState([]);
@@ -50,23 +52,59 @@ function Page4({ currentUser }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showAddForm, showSettings]);
 
-  // 從 localStorage 載入設定
+  // 依帳號載入 Firestore 設定
   useEffect(() => {
-    const savedApiKey = localStorage.getItem("google_sheets_api_key");
-    const savedSheetId = localStorage.getItem("google_sheets_sheet_id");
-    const savedAppsScriptUrl = localStorage.getItem("google_apps_script_url");
-    const savedHeight = localStorage.getItem("weight_last_height");
+    const loadSettings = async () => {
+      if (!currentUser?.uid) {
+        setApiKey("");
+        setSpreadsheetId("");
+        setAppsScriptUrl("");
+        setNewHeight("");
+        setSheetData([]);
+        setSelectedSheet(null);
+        setHeaders([]);
+        return;
+      }
 
-    if (savedApiKey) setApiKey(savedApiKey);
-    if (savedSheetId) setSpreadsheetId(savedSheetId);
-    if (savedAppsScriptUrl) setAppsScriptUrl(savedAppsScriptUrl);
-    if (savedHeight) setNewHeight(savedHeight);
+      try {
+        setLoading(true);
+        const settingsRef = doc(
+          db,
+          "users",
+          currentUser.uid,
+          "settings",
+          "sheets",
+        );
+        const snap = await getDoc(settingsRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data.apiKey) setApiKey(data.apiKey);
+          if (data.spreadsheetId) setSpreadsheetId(data.spreadsheetId);
+          if (data.appsScriptUrl) setAppsScriptUrl(data.appsScriptUrl);
+          if (data.lastHeight) setNewHeight(String(data.lastHeight));
 
-    // 如果有設定，自動載入工作表
-    if (savedApiKey && savedSheetId) {
-      loadAvailableSheets(savedApiKey, savedSheetId);
-    }
-  }, []);
+          // 自動載入
+          if (data.apiKey && data.spreadsheetId) {
+            loadAvailableSheets(data.apiKey, data.spreadsheetId);
+          }
+        } else {
+          setApiKey("");
+          setSpreadsheetId("");
+          setAppsScriptUrl("");
+          setNewHeight("");
+          setSheetData([]);
+          setSelectedSheet(null);
+          setHeaders([]);
+        }
+      } catch (err) {
+        setError("載入設定失敗：" + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSettings();
+  }, [currentUser]);
 
   // 載入可用的工作表
   const loadAvailableSheets = async (key, sheetId) => {
@@ -129,11 +167,27 @@ function Page4({ currentUser }) {
     }
 
     // 儲存到 localStorage
-    localStorage.setItem("google_sheets_api_key", tempApiKey.trim());
-    localStorage.setItem("google_sheets_sheet_id", tempSpreadsheetId.trim());
-    if (tempAppsScriptUrl.trim()) {
-      localStorage.setItem("google_apps_script_url", tempAppsScriptUrl.trim());
-    }
+    const save = async () => {
+      if (!currentUser?.uid) return;
+      const settingsRef = doc(
+        db,
+        "users",
+        currentUser.uid,
+        "settings",
+        "sheets",
+      );
+      await setDoc(
+        settingsRef,
+        {
+          apiKey: tempApiKey.trim(),
+          spreadsheetId: tempSpreadsheetId.trim(),
+          appsScriptUrl: tempAppsScriptUrl.trim() || "",
+          lastHeight: newHeight ? parseFloat(newHeight) : null,
+        },
+        { merge: true },
+      );
+    };
+    save().catch((err) => setError("儲存設定失敗：" + err.message));
 
     // 更新狀態
     setApiKey(tempApiKey.trim());
@@ -149,9 +203,11 @@ function Page4({ currentUser }) {
   const handleClearSettings = () => {
     if (!confirm("確定要清除所有設定嗎？")) return;
 
-    localStorage.removeItem("google_sheets_api_key");
-    localStorage.removeItem("google_sheets_sheet_id");
-    localStorage.removeItem("google_apps_script_url");
+    const clear = async () => {
+      if (!currentUser?.uid) return;
+      await deleteDoc(doc(db, "users", currentUser.uid, "settings", "sheets"));
+    };
+    clear().catch((err) => setError("清除設定失敗：" + err.message));
     setApiKey("");
     setSpreadsheetId("");
     setAppsScriptUrl("");
@@ -245,8 +301,23 @@ function Page4({ currentUser }) {
       console.log("資料已發送到 Google Sheets");
 
       // 儲存身高以便下次使用
-      if (height) {
-        localStorage.setItem("weight_last_height", height.toString());
+      if (height && currentUser?.uid) {
+        const settingsRef = doc(
+          db,
+          "users",
+          currentUser.uid,
+          "settings",
+          "sheets",
+        );
+        setDoc(
+          settingsRef,
+          {
+            lastHeight: height,
+          },
+          { merge: true },
+        ).catch(() => {
+          // 忽略錯誤，避免影響流程
+        });
       }
 
       // 清空輸入並關閉表單
