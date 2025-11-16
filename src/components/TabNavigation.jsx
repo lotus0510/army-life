@@ -3,8 +3,10 @@ import './TabNavigation.css'
 function TabNavigation({ activeTab, onTabChange }) {
   const tabs = [
     { id: 'home', label: '首頁', icon: '🏠' },
-    { id: 'page2', label: '搜尋報表', icon: '📊' }
-  ]
+    { id: 'page2', label: '搜尋報表', icon: '📊' },
+    { id: 'page3', label: '筆記', icon: '📝' },
+    { id: 'page4', label: '體重紀錄', icon: '📈' }
+]
 
   return (
     <div className="tab-navigation">

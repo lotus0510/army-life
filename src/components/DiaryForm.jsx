@@ -3,7 +3,6 @@ import './DiaryForm.css'
 
 const MOODS = [
   { emoji: '😊', label: '開心', value: 'happy' },
-  { emoji: '😢', label: '難過', value: 'sad' },
   { emoji: '😤', label: '煩躁', value: 'irritated' },
   { emoji: '😭', label: '想哭', value: 'crying' },
   { emoji: '😐', label: '普通', value: 'neutral' },
@@ -15,10 +14,18 @@ function DiaryForm({ addDiary, selectedDate }) {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [mood, setMood] = useState('')
+  const [tags, setTags] = useState([])
+  const [tagInput, setTagInput] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!title.trim() || !content.trim() || !mood) return
+
+    if (!mood) {
+      alert('請選擇今天的心情！')
+      return
+    }
+
+    if (!title.trim() || !content.trim()) return
 
     // 使用選擇的日期，如果沒有選擇則使用今天
     const diaryDate = selectedDate || new Date()
@@ -28,6 +35,7 @@ function DiaryForm({ addDiary, selectedDate }) {
       title: title.trim(),
       content: content.trim(),
       mood: mood,
+      tags: tags,
       date: diaryDate.toISOString(),
     }
 
@@ -35,6 +43,27 @@ function DiaryForm({ addDiary, selectedDate }) {
     setTitle('')
     setContent('')
     setMood('')
+    setTags([])
+    setTagInput('')
+  }
+
+  const handleAddTag = () => {
+    const tag = tagInput.trim()
+    if (tag && !tags.includes(tag)) {
+      setTags([...tags, tag])
+      setTagInput('')
+    }
+  }
+
+  const handleRemoveTag = (tagToRemove) => {
+    setTags(tags.filter(tag => tag !== tagToRemove))
+  }
+
+  const handleTagInputKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleAddTag()
+    }
   }
 
   const formatSelectedDate = () => {
@@ -52,7 +81,7 @@ function DiaryForm({ addDiary, selectedDate }) {
       <h2>寫日記 - {formatSelectedDate()}</h2>
       <form onSubmit={handleSubmit}>
           <div className="mood-selector">
-            <label>今天心情：</label>
+            <label>今天心情：<span className="required-mark">*</span></label>
             <div className="mood-options">
               {MOODS.map((m) => (
                 <button
@@ -81,6 +110,37 @@ function DiaryForm({ addDiary, selectedDate }) {
             onChange={(e) => setContent(e.target.value)}
             required
           />
+          <div className="tag-input-section">
+            <label>標籤：</label>
+            <div className="tag-input-container">
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyPress={handleTagInputKeyPress}
+                placeholder="輸入標籤後按 Enter"
+              />
+              <button type="button" onClick={handleAddTag} className="add-tag-btn">
+                + 添加
+              </button>
+            </div>
+            {tags.length > 0 && (
+              <div className="tags-display">
+                {tags.map((tag, index) => (
+                  <span key={index} className="tag-item">
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="remove-tag-btn"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         <div className="form-buttons">
           <button type="submit">發布</button>
         </div>

@@ -205,15 +205,35 @@
   margin-top: 2px;
 }
 
-.diary-indicator {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  font-size: 0.8rem;
+/* 心情顏色 */
+.calendar-day.mood-happy {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border-color: #fbbf24 !important;
 }
 
-.calendar-day.has-diary {
-  position: relative;
+.calendar-day.mood-irritated {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%) !important;
+  border-color: #fb923c !important;
+}
+
+.calendar-day.mood-crying {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%) !important;
+  border-color: #818cf8 !important;
+}
+
+.calendar-day.mood-neutral {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+  border-color: #60a5fa !important;
+}
+
+.calendar-day.mood-angry {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%) !important;
+  border-color: #ef4444 !important;
+}
+
+.calendar-day.mood-tired {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%) !important;
+  border-color: #a78bfa !important;
 }
 
 /* 服役日 - 必須放在前面，優先級較低 */
@@ -366,12 +386,6 @@
     font-size: 0.55rem;
   }
 
-  .diary-indicator {
-    font-size: 0.7rem;
-    top: 2px;
-    right: 2px;
-  }
-
   .selected-date-info {
     padding: 15px;
   }
@@ -456,12 +470,6 @@
   .day-count {
     font-size: 0.5rem;
     margin-top: 1px;
-  }
-
-  .diary-indicator {
-    font-size: 0.6rem;
-    top: 1px;
-    right: 1px;
   }
 
   .selected-date-info {

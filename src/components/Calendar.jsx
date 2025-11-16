@@ -122,19 +122,7 @@ function Calendar({ enlistDate, serviceDuration = 365, diaries, onOpenSettings, 
              diaryDate.getDate() === day
     })
 
-    if (!diary) return null
-
-    const moodEmojis = {
-      happy: '😊',
-      sad: '😢',
-      irritated: '😤',
-      crying: '😭',
-      neutral: '😐',
-      angry: '😡',
-      tired: '😫'
-    }
-
-    return moodEmojis[diary.mood] || '😊'
+    return diary ? diary.mood : null
   }
 
   const prevMonth = () => {
@@ -204,6 +192,7 @@ function Calendar({ enlistDate, serviceDuration = 365, diaries, onOpenSettings, 
 
         {getDaysArray().map((date, index) => {
           const daysSince = date ? getDaysSinceEnlist(date) : null
+          const mood = date ? getDiaryMood(date) : null
 
           return (
             <div
@@ -213,13 +202,13 @@ function Calendar({ enlistDate, serviceDuration = 365, diaries, onOpenSettings, 
                          ${isEnlistDate(date) ? 'enlist-day' : ''}
                          ${isSelected(date) ? 'selected' : ''}
                          ${daysSince !== null ? 'service-day' : ''}
-                         ${hasDiary(date) ? 'has-diary' : ''}`}
+                         ${hasDiary(date) ? 'has-diary' : ''}
+                         ${mood ? `mood-${mood}` : ''}`}
               onClick={() => handleDateClick(date)}
             >
               {date && (
                 <>
                   <div className="day-number">{date.getDate()}</div>
-                  {getDiaryMood(date) && <div className="diary-indicator">{getDiaryMood(date)}</div>}
                   {isToday(date) && <div className="day-badge today-badge">今</div>}
                   {isEnlistDate(date) && <div className="day-badge enlist-badge">入伍</div>}
                   {daysSince !== null && daysSince > 0 && (

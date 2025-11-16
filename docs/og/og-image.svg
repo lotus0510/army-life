@@ -1,0 +1,38 @@
+<svg width='1200' height='630' viewBox='0 0 1200 630' xmlns='http://www.w3.org/2000/svg'>
+  <defs>
+    <linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#0b1120'/>
+      <stop offset='50%' stop-color='#111827'/>
+      <stop offset='100%' stop-color='#1f2937'/>
+    </linearGradient>
+    <linearGradient id='accent' x1='0%' y1='0%' x2='100%' y2='0%'>
+      <stop offset='0%' stop-color='#22d3ee'/>
+      <stop offset='100%' stop-color='#a855f7'/>
+    </linearGradient>
+    <filter id='shadow' x='-50%' y='-50%' width='200%' height='200%'>
+      <feDropShadow dx='0' dy='12' stdDeviation='18' flood-color='rgba(0,0,0,0.35)'/>
+    </filter>
+  </defs>
+  <rect width='1200' height='630' fill='url(#bg)'/>
+  <rect x='60' y='80' width='1080' height='470' rx='28' fill='rgba(255,255,255,0.05)' stroke='rgba(255,255,255,0.08)' filter='url(#shadow)'/>
+  <text x='100' y='180' fill='white' font-family='"Segoe UI", "Inter", sans-serif' font-size='56' font-weight='800'>我的軍旅生活</text>
+  <text x='100' y='240' fill='#cbd5e1' font-family='"Segoe UI", "Inter", sans-serif' font-size='28' font-weight='500'>體重紀錄 · 筆記 · Google Sheets 聯動</text>
+
+  <rect x='100' y='280' width='320' height='200' rx='18' fill='rgba(34,211,238,0.12)' stroke='rgba(34,211,238,0.35)'/>
+  <text x='130' y='330' fill='#22d3ee' font-family='"Segoe UI", "Inter", sans-serif' font-size='18' font-weight='700'>目前體重</text>
+  <text x='130' y='390' fill='white' font-family='"SF Mono", "Roboto Mono", monospace' font-size='52' font-weight='800'>65.7 kg</text>
+  <text x='130' y='430' fill='#cbd5e1' font-family='"Segoe UI", "Inter", sans-serif' font-size='18'>vs 前次 -0.5 kg</text>
+
+  <rect x='460' y='280' width='320' height='200' rx='18' fill='rgba(168,85,247,0.12)' stroke='rgba(168,85,247,0.35)'/>
+  <text x='490' y='330' fill='#c084fc' font-family='"Segoe UI", "Inter", sans-serif' font-size='18' font-weight='700'>BMI</text>
+  <text x='490' y='390' fill='white' font-family='"SF Mono", "Roboto Mono", monospace' font-size='52' font-weight='800'>22.8</text>
+  <text x='490' y='430' fill='#cbd5e1' font-family='"Segoe UI", "Inter", sans-serif' font-size='18'>體位：正常</text>
+
+  <rect x='820' y='280' width='320' height='200' rx='18' fill='rgba(52,211,153,0.12)' stroke='rgba(52,211,153,0.35)'/>
+  <text x='850' y='330' fill='#34d399' font-family='"Segoe UI", "Inter", sans-serif' font-size='18' font-weight='700'>理想體重 (BMI 24)</text>
+  <text x='850' y='390' fill='white' font-family='"SF Mono", "Roboto Mono", monospace' font-size='48' font-weight='800'>69.1 kg</text>
+  <text x='850' y='430' fill='#cbd5e1' font-family='"Segoe UI", "Inter", sans-serif' font-size='18'>需減重 -3.4 kg</text>
+
+  <path d='M100 520 L1100 520' stroke='url(#accent)' stroke-width='4'/>
+  <text x='100' y='565' fill='#94a3b8' font-family='"Segoe UI", "Inter", sans-serif' font-size='18'>https://lotus0510.github.io/army-life/</text>
+</svg>

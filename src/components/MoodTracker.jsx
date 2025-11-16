@@ -3,7 +3,6 @@ import './MoodTracker.css'
 
 const MOODS = [
   { emoji: '😊', label: '開心', value: 'happy' },
-  { emoji: '😢', label: '難過', value: 'sad' },
   { emoji: '😤', label: '煩躁', value: 'irritated' },
   { emoji: '😭', label: '想哭', value: 'crying' },
   { emoji: '😐', label: '普通', value: 'neutral' },

@@ -88,6 +88,12 @@
   font-size: 1rem;
 }
 
+.quick-diary-form .required-mark {
+  color: #e53e3e;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
 .quick-diary-form .mood-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -114,11 +120,40 @@
   transform: scale(1.05);
 }
 
+/* 心情顏色 */
+.quick-diary-form .mood-btn[title="開心"] {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #fbbf24;
+}
+
+.quick-diary-form .mood-btn[title="煩躁"] {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+  border-color: #fb923c;
+}
+
+.quick-diary-form .mood-btn[title="想哭"] {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  border-color: #818cf8;
+}
+
+.quick-diary-form .mood-btn[title="普通"] {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: #60a5fa;
+}
+
+.quick-diary-form .mood-btn[title="生氣"] {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  border-color: #ef4444;
+}
+
+.quick-diary-form .mood-btn[title="疲憊"] {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+  border-color: #a78bfa;
+}
+
 .quick-diary-form .mood-btn.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
-  color: white;
-  transform: scale(1.05);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
 .quick-diary-form .mood-emoji {
@@ -135,7 +170,93 @@
 }
 
 .quick-diary-form .mood-btn.selected .mood-label {
-  color: white !important;
+  color: #2d3748 !important;
+  font-weight: 600;
+}
+
+/* 標籤輸入樣式 */
+.quick-diary-form .tag-input-section {
+  margin-bottom: 16px;
+}
+
+.quick-diary-form .tag-input-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.quick-diary-form .tag-input-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.quick-diary-form .tag-input-container input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.quick-diary-form .add-tag-btn {
+  background: #667eea;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.quick-diary-form .add-tag-btn:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+}
+
+.quick-diary-form .tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quick-diary-form .tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.quick-diary-form .remove-tag-btn {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.quick-diary-form .remove-tag-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
 }
 
 .quick-diary-form input[type="text"] {

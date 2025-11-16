@@ -10,6 +10,8 @@ import QuickDiaryModal from './components/QuickDiaryModal'
 import MoodStats from './components/MoodStats'
 import TabNavigation from './components/TabNavigation'
 import Page2 from './components/Page2'
+import Page3 from './components/Page3'
+import Page4 from './components/Page4'
 import './App.css'
 
 function App() {
@@ -17,17 +19,23 @@ function App() {
   const [showSettings, setShowSettings] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showQuickModal, setShowQuickModal] = useState(false)
+  const [editingDiary, setEditingDiary] = useState(null)
   const [activeTab, setActiveTab] = useState('home')
 
   // 使用 Firestore Hook 管理所有資料
   const {
     diaries,
+    notes,
     enlistDate,
     serviceDuration,
     loading,
     addDiary,
+    updateDiary,
     deleteDiary,
-    updateEnlistDate
+    updateEnlistDate,
+    addNote,
+    updateNote,
+    deleteNote
   } = useFirestore(currentUser?.uid)
 
   // 計算統計數據
@@ -177,9 +185,13 @@ function App() {
             {showQuickModal && selectedDate && (
               <QuickDiaryModal
                 selectedDate={selectedDate}
-                onClose={() => setShowQuickModal(false)}
+                onClose={() => {
+                  setShowQuickModal(false)
+                  setEditingDiary(null)
+                }}
                 addDiary={addDiary}
-                existingDiary={diaries.find(d => {
+                updateDiary={updateDiary}
+                existingDiary={editingDiary || diaries.find(d => {
                   const dDate = new Date(d.date)
                   return dDate.getFullYear() === selectedDate.getFullYear() &&
                          dDate.getMonth() === selectedDate.getMonth() &&
@@ -190,7 +202,15 @@ function App() {
 
             <div className="main-content">
               <DiaryForm addDiary={addDiary} selectedDate={selectedDate} />
-              <DiaryList diaries={diaries} deleteDiary={deleteDiary} />
+              <DiaryList
+                diaries={diaries}
+                deleteDiary={deleteDiary}
+                onEditDiary={(diary) => {
+                  setEditingDiary(diary)
+                  setSelectedDate(new Date(diary.date))
+                  setShowQuickModal(true)
+                }}
+              />
               <MoodStats diaries={diaries} enlistDate={enlistDate} />
             </div>
           </div>
@@ -198,6 +218,19 @@ function App() {
 
         {activeTab === 'page2' && (
           <Page2 diaries={diaries} enlistDate={enlistDate} />
+        )}
+
+        {activeTab === 'page3' && (
+          <Page3
+            notes={notes}
+            addNote={addNote}
+            updateNote={updateNote}
+            deleteNote={deleteNote}
+          />
+        )}
+
+        {activeTab === 'page4' && (
+          <Page4 currentUser={currentUser} />
         )}
       </div>
     </div>

@@ -11,7 +11,7 @@ const MOODS = [
   { emoji: '😫', label: '疲憊', value: 'tired' },
 ]
 
-function DiaryList({ diaries, deleteDiary }) {
+function DiaryList({ diaries, deleteDiary, onEditDiary }) {
   const [expandedId, setExpandedId] = useState(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null)
 
@@ -75,6 +75,15 @@ function DiaryList({ diaries, deleteDiary }) {
 
               {expandedId === diary.id && (
                 <>
+                  {diary.tags && diary.tags.length > 0 && (
+                    <div className="diary-tags">
+                      {diary.tags.map((tag, index) => (
+                        <span key={index} className="diary-tag">
+                          🏷️ {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <p className="diary-content">{diary.content}</p>
                   <div className="diary-actions">
                     {showDeleteConfirm === diary.id ? (
@@ -96,12 +105,20 @@ function DiaryList({ diaries, deleteDiary }) {
                         </div>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => setShowDeleteConfirm(diary.id)}
-                        className="delete-btn"
-                      >
-                        🗑️ 刪除日記
-                      </button>
+                      <div className="action-buttons">
+                        <button
+                          onClick={() => onEditDiary(diary)}
+                          className="edit-btn"
+                        >
+                          ✏️ 編輯日記
+                        </button>
+                        <button
+                          onClick={() => setShowDeleteConfirm(diary.id)}
+                          className="delete-btn"
+                        >
+                          🗑️ 刪除日記
+                        </button>
+                      </div>
                     )}
                   </div>
                 </>

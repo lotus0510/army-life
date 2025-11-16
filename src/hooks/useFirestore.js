@@ -6,6 +6,7 @@ export function useFirestore(userId) {
   const [diaries, setDiaries] = useState([])
   const [timelineEvents, setTimelineEvents] = useState([])
   const [moods, setMoods] = useState([])
+  const [notes, setNotes] = useState([])
   const [enlistDate, setEnlistDate] = useState('')
   const [serviceDuration, setServiceDuration] = useState(365)
   const [loading, setLoading] = useState(true)
@@ -15,6 +16,7 @@ export function useFirestore(userId) {
     setDiaries([])
     setTimelineEvents([])
     setMoods([])
+    setNotes([])
     setEnlistDate('')
     setServiceDuration(365)
     setLoading(true)
@@ -25,6 +27,7 @@ export function useFirestore(userId) {
   const diariesRef = userId ? collection(db, 'users', userId, 'diaries') : null
   const timelineRef = userId ? collection(db, 'users', userId, 'timeline') : null
   const moodsRef = userId ? collection(db, 'users', userId, 'moods') : null
+  const notesRef = userId ? collection(db, 'users', userId, 'notes') : null
 
   // 載入用戶基本資料（入伍日期）
   useEffect(() => {
@@ -118,6 +121,36 @@ export function useFirestore(userId) {
     return () => unsubscribe()
   }, [userId])
 
+  // 即時監聽重要事項變化
+  useEffect(() => {
+    if (!userId) return
+
+    const unsubscribe = onSnapshot(notesRef, (snapshot) => {
+      const notesData = []
+      snapshot.forEach((doc) => {
+        notesData.push({ id: doc.id, ...doc.data() })
+      })
+      // 按優先級和創建時間排序
+      notesData.sort((a, b) => {
+        // 未完成的排在前面
+        if (a.completed !== b.completed) {
+          return a.completed ? 1 : -1
+        }
+        // 優先級高的排在前面
+        const priorityOrder = { high: 0, medium: 1, low: 2 }
+        const priorityDiff = priorityOrder[a.priority || 'medium'] - priorityOrder[b.priority || 'medium']
+        if (priorityDiff !== 0) return priorityDiff
+        // 按創建時間排序（最新的在前面）
+        return new Date(b.createdAt) - new Date(a.createdAt)
+      })
+      setNotes(notesData)
+    }, (error) => {
+      console.error('監聽重要事項失敗:', error)
+    })
+
+    return () => unsubscribe()
+  }, [userId])
+
   // 新增日記
   const addDiary = async (diary) => {
     if (!userId) return
@@ -125,6 +158,17 @@ export function useFirestore(userId) {
       await setDoc(doc(diariesRef, String(diary.id)), diary)
     } catch (error) {
       console.error('新增日記失敗:', error)
+      throw error
+    }
+  }
+
+  // 更新日記
+  const updateDiary = async (diaryId, updates) => {
+    if (!userId) return
+    try {
+      await setDoc(doc(diariesRef, String(diaryId)), updates, { merge: true })
+    } catch (error) {
+      console.error('更新日記失敗:', error)
       throw error
     }
   }
@@ -189,18 +233,56 @@ export function useFirestore(userId) {
     }
   }
 
+  // 新增重要事項
+  const addNote = async (note) => {
+    if (!userId) return
+    try {
+      await setDoc(doc(notesRef, String(note.id)), note)
+    } catch (error) {
+      console.error('新增重要事項失敗:', error)
+      throw error
+    }
+  }
+
+  // 更新重要事項
+  const updateNote = async (noteId, updates) => {
+    if (!userId) return
+    try {
+      await setDoc(doc(notesRef, String(noteId)), updates, { merge: true })
+    } catch (error) {
+      console.error('更新重要事項失敗:', error)
+      throw error
+    }
+  }
+
+  // 刪除重要事項
+  const deleteNote = async (noteId) => {
+    if (!userId) return
+    try {
+      await deleteDoc(doc(notesRef, String(noteId)))
+    } catch (error) {
+      console.error('刪除重要事項失敗:', error)
+      throw error
+    }
+  }
+
   return {
     diaries,
     timelineEvents,
     moods,
+    notes,
     enlistDate,
     serviceDuration,
     loading,
     addDiary,
+    updateDiary,
     deleteDiary,
     addTimelineEvent,
     deleteTimelineEvent,
     addMood,
-    updateEnlistDate
+    updateEnlistDate,
+    addNote,
+    updateNote,
+    deleteNote
   }
 }
